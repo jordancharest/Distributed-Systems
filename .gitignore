@@ -1,0 +1,3 @@
+# ignore build folders and executables
+build/
+*.out
