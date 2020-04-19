@@ -6,17 +6,10 @@
 namespace platform {
 
 FaultyProcess::FaultyProcess(std::shared_ptr<UdpServer> server) :
-    m_network_layer(server),
-    m_crash_check(m_crash_signal.get_future())
-{
-    std::cout << "Initializing network layer" << std::endl;
-    m_network_thread = std::thread([&](){ m_network_layer.run(); });
-}
+    m_server(server),
+    m_crash_check(m_crash_signal.get_future()) {}
 
 FaultyProcess::~FaultyProcess() {
-    std::cout << "Tearing down network layer" << std::endl;
-    m_network_layer.exit();
-    m_network_thread.join();
 }
 
 void FaultyProcess::run() {
@@ -25,6 +18,12 @@ void FaultyProcess::run() {
     while (!should_crash()) {
         // run algorithm
         std::cout << "FP: running" << std::endl;
+        if (m_server->message_waiting()) {
+            std::string msg = m_server->receive();
+            std::cout << "FP: received a message: " << msg << std::endl;
+        } else {
+            std::cout << "FP: no message" << std::endl;
+        }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     std::cout << "FP: crashed" << std::endl;

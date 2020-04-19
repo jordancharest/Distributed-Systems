@@ -27,13 +27,11 @@ public:
     UdpServer& operator=(const UdpServer& rhs) = delete;
 
     /**
-     * Blocking wait until a message is received or a timeout is reached.
-     * Does not receive message, only indicates that one is available.
-     * Must call @ref receive() to receive the message.
-     * @param milliseconds number of milliseconds to wait for
-     * @return true if a message is available to be received
+     * Checks to see if there is a message in the network buffer waiting to be received.
+     * Returns immediately without receiving the message.
+     * Returns true if there is a message waiting.
      */
-    bool wait_with_timeout(int milliseconds);
+    bool message_waiting();
 
     /**
     * Send a message to designated recipient
@@ -44,7 +42,8 @@ public:
     void send(const std::string& ip, int port, const std::string& buffer);
     
     /**
-    * Blocking wait to receive message.
+    * Blocking wait to receive message. Can be called when @ref message_waiting() returns true
+    * to immediately receive a message without blocking.
     * @return the received message
     */
     std::string receive();

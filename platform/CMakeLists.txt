@@ -4,7 +4,6 @@ project(distributed-system)
 add_library(platform STATIC
     udp-server.cc
     faulty-process.cc
-    network-layer.cc
 )
 
 install(TARGETS platform DESTINATION ../../lib)

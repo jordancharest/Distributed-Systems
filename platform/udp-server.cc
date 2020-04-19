@@ -31,11 +31,8 @@ UdpServer::UdpServer(std::string host, int port) : m_host(std::move(host)), m_po
 }
 
 // ----------------------------------------------------------------------------
-bool UdpServer::wait_with_timeout(int milliseconds) {
-    struct timeval timeout;
-    timeout.tv_sec = milliseconds / 1000;
-    timeout.tv_usec = (milliseconds - (milliseconds/1000)*1000) * 1000;
-    std::cout << "Set timeout to " << timeout.tv_sec << "s and " << timeout.tv_usec << "us" << std::endl;
+bool UdpServer::message_waiting() {
+    struct timeval timeout = {0,0}; // no timeout, immediately return
 
     // tell which descriptors to wait for (only want the socket descriptor for this server)
     fd_set read_fd_set;

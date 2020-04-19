@@ -3,7 +3,6 @@
 #include <thread>
 #include <future>
 
-#include "network-layer.hpp"
 #include "udp-server.hpp"
 
 
@@ -36,9 +35,7 @@ private:
     // Check if this thread should exit
     bool should_crash();
 
-    // send and receive messages
-    NetworkLayer m_network_layer;
-    std::thread m_network_thread;
+    std::shared_ptr<UdpServer> m_server;
    
     // manage the exit crash signal
     std::promise<void> m_crash_signal;
