@@ -31,23 +31,19 @@ UdpServer::UdpServer(std::string host, int port) : m_host(std::move(host)), m_po
 }
 
 // ----------------------------------------------------------------------------
-std::string UdpServer::receive() {
-    int n_bytes;
-    char buffer[kMaxBuffer];
-    struct sockaddr_in client;
-    int len = sizeof client;
+bool UdpServer::wait_with_timeout(int milliseconds) {
+    struct timeval timeout;
+    timeout.tv_sec = milliseconds / 1000;
+    timeout.tv_usec = (milliseconds - (milliseconds/1000)*1000) * 1000;
+    std::cout << "Set timeout to " << timeout.tv_sec << "s and " << timeout.tv_usec << "us" << std::endl;
 
-    // recvfrom is a blocking call
-    n_bytes = recvfrom(m_sd, buffer, kMaxBuffer, 0, (struct sockaddr*)&client, (socklen_t*)&len);
-    if (n_bytes < 0) {
-        std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
-    } else {
-        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << "\n";
+    // tell which descriptors to wait for (only want the socket descriptor for this server)
+    fd_set read_fd_set;
+    FD_ZERO(&read_fd_set);
+    FD_SET(m_sd, &read_fd_set);
 
-        // null terminate and copy it to the return string
-        buffer[n_bytes] = '\0';
-    }
-    return buffer;
+    int ready = select(FD_SETSIZE, &read_fd_set, NULL, NULL, &timeout);
+    return ready == m_sd;
 }
 
 // ----------------------------------------------------------------------------
@@ -72,4 +68,25 @@ void UdpServer::send(const std::string& ip, int port, const std::string& buffer)
         std::cerr << "ERROR: " << strerror(errno) << "\nsendto() failed" << std::endl;
     }
 }
+
+// ----------------------------------------------------------------------------
+std::string UdpServer::receive() {
+    int n_bytes;
+    char buffer[kMaxBuffer];
+    struct sockaddr_in client;
+    int len = sizeof client;
+
+    // recvfrom is a blocking call
+    n_bytes = recvfrom(m_sd, buffer, kMaxBuffer, 0, (struct sockaddr*)&client, (socklen_t*)&len);
+    if (n_bytes < 0) {
+        std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
+    } else {
+        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << "\n";
+
+        // null terminate and copy it to the return string
+        buffer[n_bytes] = '\0';
+    }
+    return buffer;
+}
+
 } // namespace platform

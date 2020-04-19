@@ -27,6 +27,15 @@ public:
     UdpServer& operator=(const UdpServer& rhs) = delete;
 
     /**
+     * Blocking wait until a message is received or a timeout is reached.
+     * Does not receive message, only indicates that one is available.
+     * Must call @ref receive() to receive the message.
+     * @param milliseconds number of milliseconds to wait for
+     * @return true if a message is available to be received
+     */
+    bool wait_with_timeout(int milliseconds);
+
+    /**
     * Send a message to designated recipient
     * @param [in] server_ip ip address of the recipient
     * @param [in] server_port port of the recipient

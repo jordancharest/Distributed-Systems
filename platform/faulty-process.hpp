@@ -2,7 +2,10 @@
 
 #include <thread>
 #include <future>
+
+#include "network-layer.hpp"
 #include "udp-server.hpp"
+
 
 namespace platform {
 
@@ -11,10 +14,10 @@ public:
     /** Constructor.
      * @param [in] server ptr to a server object that sends and receives messages
      */
-    FaultyProcess(std::shared_ptr<UdpServer> server) :
-        m_server(server),
-        m_crash_check(m_crash_signal.get_future())
-        {}
+    FaultyProcess(std::shared_ptr<UdpServer> server);
+
+    /** Destructor. Clean up the network layer. */
+    ~FaultyProcess();
 
     /** Copying is forbidden. std::thread's can't be copied */
     FaultyProcess(const FaultyProcess&) = delete;
@@ -26,14 +29,18 @@ public:
      */
     virtual void run();
 
-    /** Check if this thread should exit */
-    bool should_crash();
-
     /** Signal to this thread that it should "crash" (exit) */
     void crash();
 
 private:
-    std::shared_ptr<UdpServer> m_server;
+    // Check if this thread should exit
+    bool should_crash();
+
+    // send and receive messages
+    NetworkLayer m_network_layer;
+    std::thread m_network_thread;
+   
+    // manage the exit crash signal
     std::promise<void> m_crash_signal;
     std::future<void> m_crash_check;
 };
