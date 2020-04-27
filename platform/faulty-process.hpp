@@ -15,10 +15,7 @@ public:
      */
     FaultyProcess(std::shared_ptr<UdpServer> server);
 
-    /** Destructor. Clean up the network layer. */
-    ~FaultyProcess();
-
-    /** Copying is forbidden. std::thread's can't be copied */
+    /** Copying is forbidden. std::threads can't be copied */
     FaultyProcess(const FaultyProcess&) = delete;
     FaultyProcess& operator=(const FaultyProcess&) = delete;
 
@@ -30,13 +27,13 @@ public:
 
     /** Signal to this thread that it should "crash" (exit) */
     void crash();
-
-private:
+protected:
     // Check if this thread should exit
     bool should_crash();
 
     std::shared_ptr<UdpServer> m_server;
-   
+
+private:
     // manage the exit crash signal
     std::promise<void> m_crash_signal;
     std::future<void> m_crash_check;

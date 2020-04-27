@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package swim;
+
+message Join {
+    enum Type {
+        REQUEST = 0;
+        ACK = 1;
+    }
+    Type type = 1;
+}

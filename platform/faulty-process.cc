@@ -7,10 +7,8 @@ namespace platform {
 
 FaultyProcess::FaultyProcess(std::shared_ptr<UdpServer> server) :
     m_server(server),
-    m_crash_check(m_crash_signal.get_future()) {}
-
-FaultyProcess::~FaultyProcess() {
-}
+    m_crash_check(m_crash_signal.get_future())
+    {}
 
 void FaultyProcess::run() {
     std::cout << "FP: starting new instance" << std::endl;

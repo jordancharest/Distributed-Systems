@@ -1,3 +1,4 @@
-# ignore build folders and executables
+# ignore build folders, executables, and logs
 build/
 *.out
+*.log

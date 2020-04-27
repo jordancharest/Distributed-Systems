@@ -1,34 +1,117 @@
 #include <iostream>
 #include <thread>
+#include <getopt.h>
 
 #include "platform/faulty-process.hpp"
 #include "platform/udp-server.hpp"
+#include "swim-process.hpp"
+#include "msg/swim.pb.h"
 
+
+
+std::tuple<std::string, int, std::string, int, bool> parse_args(int argc, char** argv) {
+
+    std::string host = "";
+    int port = 0;
+    std::string chost = "";
+    int cport;
+    int coordinator = 0;
+
+    while (true) {
+        static struct option long_options[] = 
+        {
+            {"coordinator", no_argument,       &coordinator,   1},
+            {"host",        required_argument, 0,            'h'},
+            {"port",        required_argument, 0,            'p'},
+            {"chost",       required_argument, 0,            's'},
+            {"cport",       required_argument, 0,            'r'},
+            {0, 0, 0, 0}
+        };
+
+        int option_index = 0;
+        int c = getopt_long(argc, argv, "", long_options, &option_index);
+        
+        // options parsing is done
+        if (c == -1) {
+            break;
+        }
+
+        switch (c) {
+            case 0: // a long option was found
+                std::cout << "Option " << long_options[option_index].name << "\n";
+                break;
+            case 'h':
+                host = optarg;
+                break;
+            case 'p':
+                port = atoi(optarg);
+                break;
+            case 's':
+                chost = optarg;
+                break;
+            case 'r':
+                cport = atoi(optarg);
+                break;
+            default:    // unrecognized option
+                std::exit(1);
+                break;
+        }
+    }
+
+    if (optind < argc) {
+        std::cout << "Non-option args:";
+        while (optind < argc) {
+            std::cout << " " << argv[optind++];
+        }
+        std::cout << "\n";
+    }
+
+    if (host.empty() || !port) {
+        std::cerr << "hostname and port are required\n";
+        std::exit(1);
+    }
+
+    return {host, port, chost, cport, coordinator};
+}
 
 
 int main (int argc, char** argv) {
-    std::shared_ptr<platform::UdpServer> server = std::make_shared<platform::UdpServer>("faulty-process", 9999);
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+    auto [host, port, chost, cport, is_coordinator] = parse_args(argc, argv);
+    if (is_coordinator) {
+        std::cout << "MAIN: this faulty process will be the coordinator\n";
+    } else if (chost.empty() || !cport) {
+        std::cerr << "Process needs to either be the coordinator (--coordinator)"
+                  << " or know how to contact coordinator through chost"
+                  << " and cport" << std::endl;
+        std::exit(1);
+    }
+
+    std::cout << "MAIN: starting server " << host << ":" << port << "\n";
+    std::shared_ptr<platform::UdpServer> server = std::make_shared<platform::UdpServer>(host, port);
 
     // encapsulate the entire program in a FaultyProcess
     // so we can control crashes, message loss, etc.
     while (true) {
-        std::cout << "Main: starting process" << std::endl;
-        platform::FaultyProcess fp(server);
-        std::thread process_thread([&](){ fp.run(); });
+        std::cout << "MAIN: attaching server to faulty process" << std::endl;
+        swim::SwimProcess sp(server, is_coordinator, chost, cport);
+        std::thread process_thread([&](){ sp.run(); });
 
         int i = 0;
         while (true) {
             ++i;
-            std::cout << "Main: generating random number " << i << std::endl;
-            // sit and generate random numbers
-            if (i == 10) {
-                std::cout << "Main: crashing process" << std::endl;
-                fp.crash();
+            std::cout << "MAIN: generating random number " << i << std::endl;
+
+            // sit and generate random numbers, don't crash the coordinator for now
+            if (!is_coordinator && i == 10) {
+                std::cout << "MAIN: crashing process" << std::endl;
+                sp.crash();
                 process_thread.join();
                 break;
             }
-            using namespace std::chrono_literals;
-            std::this_thread::sleep_for(1s);
+            // using namespace std::chrono_literals;
+            std::this_thread::sleep_for(std::chrono::seconds(5));
         }
     }
 
