@@ -6,5 +6,5 @@
 # ./build/swim-protocol --host localhost --port 9003 --chost localhost --cport 9000 > process3.log 2>&1 &
 # ./build/swim-protocol --host localhost --port 9004 --chost localhost --cport 9000 > process4.log 2>&1 &
 
-# start the coordinator
+# start the coordinator last so we can see output on command line
 ./build/swim-protocol --host localhost --port 9000 --coordinator | tee coordinator.log

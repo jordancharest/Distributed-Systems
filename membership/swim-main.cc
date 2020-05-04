@@ -111,7 +111,6 @@ int main (int argc, char** argv) {
                 process_thread.join();
                 break;
             }
-            // using namespace std::chrono_literals;
             std::this_thread::sleep_for(std::chrono::seconds(5));
         }
     }

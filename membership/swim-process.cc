@@ -11,6 +11,16 @@ static constexpr int kMaxRetries = 5;
 static constexpr unsigned int kDefaultTimeout_ms = 1000;
 static constexpr unsigned int kRunPeriod_ms = 1000;
 
+
+void log(std::string) {
+    // auto t = std::chrono::steady_clock::now();
+
+    // use std::put_time()
+
+}
+
+
+
 void SwimProcess::run() {
     // add self to membership list
     add_member(pthread_self(), m_server->port());
@@ -34,7 +44,7 @@ void SwimProcess::run() {
 void SwimProcess::execute_swim() {
     if (m_server->message_waiting(0)) {
         auto [msg, ip, port] = m_server->receive_from();
-        swim::Message swim_msg;
+        Message swim_msg;
         swim_msg.ParseFromString(msg);
         switch (swim_msg.type()) {
             case Message::PING:
@@ -109,16 +119,15 @@ bool SwimProcess::attempt_join() {
             }
         }
         std::cout << "SWIM: no response to join request" << std::endl;
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     return false;
 }
 
 
 void SwimProcess::add_member(unsigned int id, unsigned int port) {
-    // need to do other stuff, but for now, just add it
     std::cout << "SWIM: adding member " << id << " at port " << port << std::endl;
-    m_members[id] = port;
+    m_members[id].set_port(port);
+    m_members[id].set_status(Member::ALIVE);
 }
 
 

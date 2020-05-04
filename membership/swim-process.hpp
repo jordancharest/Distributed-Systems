@@ -50,8 +50,8 @@ private:
     std::string m_coord_host;
     unsigned int m_coord_port;
 
-    // member id, member port
-    std::unordered_map<unsigned int, unsigned int> m_members;
+    // member id, {port, status}
+    std::unordered_map<unsigned int, Member> m_members;
 };
 
 } // namespace swim
