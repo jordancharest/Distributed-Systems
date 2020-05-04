@@ -15,24 +15,24 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 namespace swim {
-class JoinDefaultTypeInternal {
+class MessageDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Join> _instance;
-} _Join_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Message> _instance;
+} _Message_default_instance_;
 }  // namespace swim
-static void InitDefaultsscc_info_Join_swim_2eproto() {
+static void InitDefaultsscc_info_Message_swim_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::swim::_Join_default_instance_;
-    new (ptr) ::swim::Join();
+    void* ptr = &::swim::_Message_default_instance_;
+    new (ptr) ::swim::Message();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::swim::Join::InitAsDefaultInstance();
+  ::swim::Message::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Join_swim_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Join_swim_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Message_swim_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Message_swim_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_swim_2eproto[1];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_swim_2eproto[1];
@@ -40,34 +40,35 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_s
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_swim_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::swim::Join, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::swim::Message, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::swim::Join, type_),
+  PROTOBUF_FIELD_OFFSET(::swim::Message, sender_id_),
+  PROTOBUF_FIELD_OFFSET(::swim::Message, type_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::swim::Join)},
+  { 0, -1, sizeof(::swim::Message)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::swim::_Join_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::swim::_Message_default_instance_),
 };
 
 const char descriptor_table_protodef_swim_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nswim.proto\022\004swim\"C\n\004Join\022\035\n\004type\030\001 \001(\016"
-  "2\017.swim.Join.Type\"\034\n\004Type\022\013\n\007REQUEST\020\000\022\007"
-  "\n\003ACK\020\001b\006proto3"
+  "\n\nswim.proto\022\004swim\"Y\n\007Message\022\021\n\tsender_"
+  "id\030\001 \001(\r\022 \n\004type\030\002 \001(\0162\022.swim.Message.Ty"
+  "pe\"\031\n\004Type\022\010\n\004PING\020\000\022\007\n\003ACK\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_swim_2eproto_deps[1] = {
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_swim_2eproto_sccs[1] = {
-  &scc_info_Join_swim_2eproto.base,
+  &scc_info_Message_swim_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_swim_2eproto_once;
 static bool descriptor_table_swim_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_swim_2eproto = {
-  &descriptor_table_swim_2eproto_initialized, descriptor_table_protodef_swim_2eproto, "swim.proto", 95,
+  &descriptor_table_swim_2eproto_initialized, descriptor_table_protodef_swim_2eproto, "swim.proto", 117,
   &descriptor_table_swim_2eproto_once, descriptor_table_swim_2eproto_sccs, descriptor_table_swim_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_swim_2eproto::offsets,
   file_level_metadata_swim_2eproto, 1, file_level_enum_descriptors_swim_2eproto, file_level_service_descriptors_swim_2eproto,
@@ -76,11 +77,11 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_swim_2
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_swim_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_swim_2eproto), true);
 namespace swim {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Join_Type_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Message_Type_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_swim_2eproto);
   return file_level_enum_descriptors_swim_2eproto[0];
 }
-bool Join_Type_IsValid(int value) {
+bool Message_Type_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
@@ -91,78 +92,91 @@ bool Join_Type_IsValid(int value) {
 }
 
 #if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-constexpr Join_Type Join::REQUEST;
-constexpr Join_Type Join::ACK;
-constexpr Join_Type Join::Type_MIN;
-constexpr Join_Type Join::Type_MAX;
-constexpr int Join::Type_ARRAYSIZE;
+constexpr Message_Type Message::PING;
+constexpr Message_Type Message::ACK;
+constexpr Message_Type Message::Type_MIN;
+constexpr Message_Type Message::Type_MAX;
+constexpr int Message::Type_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
-void Join::InitAsDefaultInstance() {
+void Message::InitAsDefaultInstance() {
 }
-class Join::_Internal {
+class Message::_Internal {
  public:
 };
 
-Join::Join()
+Message::Message()
   : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:swim.Join)
+  // @@protoc_insertion_point(constructor:swim.Message)
 }
-Join::Join(const Join& from)
+Message::Message(const Message& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  type_ = from.type_;
-  // @@protoc_insertion_point(copy_constructor:swim.Join)
+  ::memcpy(&sender_id_, &from.sender_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&sender_id_)) + sizeof(type_));
+  // @@protoc_insertion_point(copy_constructor:swim.Message)
 }
 
-void Join::SharedCtor() {
-  type_ = 0;
+void Message::SharedCtor() {
+  ::memset(&sender_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&type_) -
+      reinterpret_cast<char*>(&sender_id_)) + sizeof(type_));
 }
 
-Join::~Join() {
-  // @@protoc_insertion_point(destructor:swim.Join)
+Message::~Message() {
+  // @@protoc_insertion_point(destructor:swim.Message)
   SharedDtor();
 }
 
-void Join::SharedDtor() {
+void Message::SharedDtor() {
 }
 
-void Join::SetCachedSize(int size) const {
+void Message::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const Join& Join::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Join_swim_2eproto.base);
+const Message& Message::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Message_swim_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void Join::Clear() {
-// @@protoc_insertion_point(message_clear_start:swim.Join)
+void Message::Clear() {
+// @@protoc_insertion_point(message_clear_start:swim.Message)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  type_ = 0;
+  ::memset(&sender_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&type_) -
+      reinterpret_cast<char*>(&sender_id_)) + sizeof(type_));
   _internal_metadata_.Clear();
 }
 
-const char* Join::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* Message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // .swim.Join.Type type = 1;
+      // uint32 sender_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          sender_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // .swim.Message.Type type = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
-          _internal_set_type(static_cast<::swim::Join_Type>(val));
+          _internal_set_type(static_cast<::swim::Message_Type>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -185,36 +199,49 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* Join::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* Message::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:swim.Join)
+  // @@protoc_insertion_point(serialize_to_array_start:swim.Message)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .swim.Join.Type type = 1;
+  // uint32 sender_id = 1;
+  if (this->sender_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_sender_id(), target);
+  }
+
+  // .swim.Message.Type type = 2;
   if (this->type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_type(), target);
+      2, this->_internal_type(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:swim.Join)
+  // @@protoc_insertion_point(serialize_to_array_end:swim.Message)
   return target;
 }
 
-size_t Join::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:swim.Join)
+size_t Message::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:swim.Message)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .swim.Join.Type type = 1;
+  // uint32 sender_id = 1;
+  if (this->sender_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_sender_id());
+  }
+
+  // .swim.Message.Type type = 2;
   if (this->type() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_type());
@@ -229,58 +256,62 @@ size_t Join::ByteSizeLong() const {
   return total_size;
 }
 
-void Join::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:swim.Join)
+void Message::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:swim.Message)
   GOOGLE_DCHECK_NE(&from, this);
-  const Join* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Join>(
+  const Message* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Message>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:swim.Join)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:swim.Message)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:swim.Join)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:swim.Message)
     MergeFrom(*source);
   }
 }
 
-void Join::MergeFrom(const Join& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:swim.Join)
+void Message::MergeFrom(const Message& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:swim.Message)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.sender_id() != 0) {
+    _internal_set_sender_id(from._internal_sender_id());
+  }
   if (from.type() != 0) {
     _internal_set_type(from._internal_type());
   }
 }
 
-void Join::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:swim.Join)
+void Message::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:swim.Message)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Join::CopyFrom(const Join& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:swim.Join)
+void Message::CopyFrom(const Message& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:swim.Message)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Join::IsInitialized() const {
+bool Message::IsInitialized() const {
   return true;
 }
 
-void Join::InternalSwap(Join* other) {
+void Message::InternalSwap(Message* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(sender_id_, other->sender_id_);
   swap(type_, other->type_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Join::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Message::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -288,8 +319,8 @@ void Join::InternalSwap(Join* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace swim
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::swim::Join* Arena::CreateMaybeMessage< ::swim::Join >(Arena* arena) {
-  return Arena::CreateInternal< ::swim::Join >(arena);
+template<> PROTOBUF_NOINLINE ::swim::Message* Arena::CreateMaybeMessage< ::swim::Message >(Arena* arena) {
+  return Arena::CreateInternal< ::swim::Message >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

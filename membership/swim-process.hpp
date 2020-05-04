@@ -10,7 +10,7 @@
 
 
 namespace swim {
-class SwimProcess : public platform::FaultyProcess {
+class SwimProcess : public ::platform::FaultyProcess {
 public:
     SwimProcess(std::shared_ptr<platform::UdpServer> server, bool is_coordinator,
                 std::string coordinator_host, int coordinator_port) :
@@ -24,16 +24,19 @@ public:
     SwimProcess(const SwimProcess&) = delete;
     SwimProcess& operator=(const SwimProcess&) = delete;
 
-    /** Implement the SWIM algorithm, follow the template for FaultyProcess */
+    /** initialize and wrap the SWIM algorithm, follow the template for FaultyProcess */
     void run() override;
 
 private:
+    // execute a single loop of the SWIM algorithm
+    void execute_swim();
+
     // coordinator: wait for first join request
     // other: send join request to coordinator
     void initialize();
 
     // Send a join message of type msg_type to the recipient described by the ip and port
-    void send_join_message(const std::string& ip, unsigned int port, Join::Type msg_type);
+    void send_join_message(const std::string& ip, unsigned int port, Message::Type msg_type);
 
     // Attempt to join for some number of retries
     bool attempt_join();

@@ -56,59 +56,59 @@ struct TableStruct_swim_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_swim_2eproto;
 namespace swim {
-class Join;
-class JoinDefaultTypeInternal;
-extern JoinDefaultTypeInternal _Join_default_instance_;
+class Message;
+class MessageDefaultTypeInternal;
+extern MessageDefaultTypeInternal _Message_default_instance_;
 }  // namespace swim
 PROTOBUF_NAMESPACE_OPEN
-template<> ::swim::Join* Arena::CreateMaybeMessage<::swim::Join>(Arena*);
+template<> ::swim::Message* Arena::CreateMaybeMessage<::swim::Message>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace swim {
 
-enum Join_Type : int {
-  Join_Type_REQUEST = 0,
-  Join_Type_ACK = 1,
-  Join_Type_Join_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  Join_Type_Join_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+enum Message_Type : int {
+  Message_Type_PING = 0,
+  Message_Type_ACK = 1,
+  Message_Type_Message_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  Message_Type_Message_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
-bool Join_Type_IsValid(int value);
-constexpr Join_Type Join_Type_Type_MIN = Join_Type_REQUEST;
-constexpr Join_Type Join_Type_Type_MAX = Join_Type_ACK;
-constexpr int Join_Type_Type_ARRAYSIZE = Join_Type_Type_MAX + 1;
+bool Message_Type_IsValid(int value);
+constexpr Message_Type Message_Type_Type_MIN = Message_Type_PING;
+constexpr Message_Type Message_Type_Type_MAX = Message_Type_ACK;
+constexpr int Message_Type_Type_ARRAYSIZE = Message_Type_Type_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Join_Type_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Message_Type_descriptor();
 template<typename T>
-inline const std::string& Join_Type_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, Join_Type>::value ||
+inline const std::string& Message_Type_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Message_Type>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function Join_Type_Name.");
+    "Incorrect type passed to function Message_Type_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    Join_Type_descriptor(), enum_t_value);
+    Message_Type_descriptor(), enum_t_value);
 }
-inline bool Join_Type_Parse(
-    const std::string& name, Join_Type* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Join_Type>(
-    Join_Type_descriptor(), name, value);
+inline bool Message_Type_Parse(
+    const std::string& name, Message_Type* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Message_Type>(
+    Message_Type_descriptor(), name, value);
 }
 // ===================================================================
 
-class Join :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:swim.Join) */ {
+class Message :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:swim.Message) */ {
  public:
-  Join();
-  virtual ~Join();
+  Message();
+  virtual ~Message();
 
-  Join(const Join& from);
-  Join(Join&& from) noexcept
-    : Join() {
+  Message(const Message& from);
+  Message(Message&& from) noexcept
+    : Message() {
     *this = ::std::move(from);
   }
 
-  inline Join& operator=(const Join& from) {
+  inline Message& operator=(const Message& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Join& operator=(Join&& from) noexcept {
+  inline Message& operator=(Message&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -126,37 +126,37 @@ class Join :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const Join& default_instance();
+  static const Message& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Join* internal_default_instance() {
-    return reinterpret_cast<const Join*>(
-               &_Join_default_instance_);
+  static inline const Message* internal_default_instance() {
+    return reinterpret_cast<const Message*>(
+               &_Message_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(Join& a, Join& b) {
+  friend void swap(Message& a, Message& b) {
     a.Swap(&b);
   }
-  inline void Swap(Join* other) {
+  inline void Swap(Message* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Join* New() const final {
-    return CreateMaybeMessage<Join>(nullptr);
+  inline Message* New() const final {
+    return CreateMaybeMessage<Message>(nullptr);
   }
 
-  Join* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Join>(arena);
+  Message* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Message>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const Join& from);
-  void MergeFrom(const Join& from);
+  void CopyFrom(const Message& from);
+  void MergeFrom(const Message& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -170,10 +170,10 @@ class Join :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Join* other);
+  void InternalSwap(Message* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "swim.Join";
+    return "swim.Message";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -195,55 +195,66 @@ class Join :
 
   // nested types ----------------------------------------------------
 
-  typedef Join_Type Type;
-  static constexpr Type REQUEST =
-    Join_Type_REQUEST;
+  typedef Message_Type Type;
+  static constexpr Type PING =
+    Message_Type_PING;
   static constexpr Type ACK =
-    Join_Type_ACK;
+    Message_Type_ACK;
   static inline bool Type_IsValid(int value) {
-    return Join_Type_IsValid(value);
+    return Message_Type_IsValid(value);
   }
   static constexpr Type Type_MIN =
-    Join_Type_Type_MIN;
+    Message_Type_Type_MIN;
   static constexpr Type Type_MAX =
-    Join_Type_Type_MAX;
+    Message_Type_Type_MAX;
   static constexpr int Type_ARRAYSIZE =
-    Join_Type_Type_ARRAYSIZE;
+    Message_Type_Type_ARRAYSIZE;
   static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
   Type_descriptor() {
-    return Join_Type_descriptor();
+    return Message_Type_descriptor();
   }
   template<typename T>
   static inline const std::string& Type_Name(T enum_t_value) {
     static_assert(::std::is_same<T, Type>::value ||
       ::std::is_integral<T>::value,
       "Incorrect type passed to function Type_Name.");
-    return Join_Type_Name(enum_t_value);
+    return Message_Type_Name(enum_t_value);
   }
   static inline bool Type_Parse(const std::string& name,
       Type* value) {
-    return Join_Type_Parse(name, value);
+    return Message_Type_Parse(name, value);
   }
 
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTypeFieldNumber = 1,
+    kSenderIdFieldNumber = 1,
+    kTypeFieldNumber = 2,
   };
-  // .swim.Join.Type type = 1;
-  void clear_type();
-  ::swim::Join_Type type() const;
-  void set_type(::swim::Join_Type value);
+  // uint32 sender_id = 1;
+  void clear_sender_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 sender_id() const;
+  void set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::swim::Join_Type _internal_type() const;
-  void _internal_set_type(::swim::Join_Type value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_sender_id() const;
+  void _internal_set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:swim.Join)
+  // .swim.Message.Type type = 2;
+  void clear_type();
+  ::swim::Message_Type type() const;
+  void set_type(::swim::Message_Type value);
+  private:
+  ::swim::Message_Type _internal_type() const;
+  void _internal_set_type(::swim::Message_Type value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:swim.Message)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 sender_id_;
   int type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_swim_2eproto;
@@ -257,26 +268,46 @@ class Join :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Join
+// Message
 
-// .swim.Join.Type type = 1;
-inline void Join::clear_type() {
+// uint32 sender_id = 1;
+inline void Message::clear_sender_id() {
+  sender_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Message::_internal_sender_id() const {
+  return sender_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Message::sender_id() const {
+  // @@protoc_insertion_point(field_get:swim.Message.sender_id)
+  return _internal_sender_id();
+}
+inline void Message::_internal_set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  sender_id_ = value;
+}
+inline void Message::set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_sender_id(value);
+  // @@protoc_insertion_point(field_set:swim.Message.sender_id)
+}
+
+// .swim.Message.Type type = 2;
+inline void Message::clear_type() {
   type_ = 0;
 }
-inline ::swim::Join_Type Join::_internal_type() const {
-  return static_cast< ::swim::Join_Type >(type_);
+inline ::swim::Message_Type Message::_internal_type() const {
+  return static_cast< ::swim::Message_Type >(type_);
 }
-inline ::swim::Join_Type Join::type() const {
-  // @@protoc_insertion_point(field_get:swim.Join.type)
+inline ::swim::Message_Type Message::type() const {
+  // @@protoc_insertion_point(field_get:swim.Message.type)
   return _internal_type();
 }
-inline void Join::_internal_set_type(::swim::Join_Type value) {
+inline void Message::_internal_set_type(::swim::Message_Type value) {
   
   type_ = value;
 }
-inline void Join::set_type(::swim::Join_Type value) {
+inline void Message::set_type(::swim::Message_Type value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:swim.Join.type)
+  // @@protoc_insertion_point(field_set:swim.Message.type)
 }
 
 #ifdef __GNUC__
@@ -289,10 +320,10 @@ inline void Join::set_type(::swim::Join_Type value) {
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::swim::Join_Type> : ::std::true_type {};
+template <> struct is_proto_enum< ::swim::Message_Type> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::swim::Join_Type>() {
-  return ::swim::Join_Type_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::swim::Message_Type>() {
+  return ::swim::Message_Type_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
