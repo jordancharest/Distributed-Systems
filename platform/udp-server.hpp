@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include <string>
+#include <tuple>
 
 namespace platform {
 
@@ -28,10 +29,12 @@ public:
 
     /**
      * Checks to see if there is a message in the network buffer waiting to be received.
-     * Returns immediately without receiving the message.
+     * Returns when a message is received or the timeout is reached. The message remains
+     * in the network buffer and can then be received by calling @ref receive.
+     * @param [in] timeout_ms Max time to wait without receiving a message in milliseconds. Defaults to 0.
      * Returns true if there is a message waiting.
      */
-    bool message_waiting();
+    bool message_waiting(unsigned int timeout_ms = 0);
 
     /**
     * Send a message to designated recipient
@@ -48,10 +51,16 @@ public:
     */
     std::string receive();
 
+    /** Same as @ref receive, but also return the sender's ip address and port */
+    std::tuple<std::string, std::string, unsigned int> receive_from();
+
+    /** Get the port this server is bound to */
+    unsigned int port() const { return m_port; }
+
 private:
     int m_sd;
     struct sockaddr_in m_sockaddr;
-    int m_port;
+    unsigned int m_port;
     std::string m_host;
 };
 } // namespace platform

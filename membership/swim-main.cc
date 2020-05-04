@@ -91,10 +91,11 @@ int main (int argc, char** argv) {
     std::cout << "MAIN: starting server " << host << ":" << port << "\n";
     std::shared_ptr<platform::UdpServer> server = std::make_shared<platform::UdpServer>(host, port);
 
-    // encapsulate the entire program in a FaultyProcess
-    // so we can control crashes, message loss, etc.
+    // this process acts as a watchdog for the faulty process. When the faulty process crashes,
+    // it is automatically restarted
     while (true) {
-        std::cout << "MAIN: attaching server to faulty process" << std::endl;
+        // encapsulate the entire program in a FaultyProcess
+        // so we can control crashes, message loss, etc.
         swim::SwimProcess sp(server, is_coordinator, chost, cport);
         std::thread process_thread([&](){ sp.run(); });
 

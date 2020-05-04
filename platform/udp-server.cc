@@ -31,8 +31,8 @@ UdpServer::UdpServer(std::string host, int port) : m_host(std::move(host)), m_po
 }
 
 // ----------------------------------------------------------------------------
-bool UdpServer::message_waiting() {
-    struct timeval timeout = {0,0}; // no timeout, immediately return
+bool UdpServer::message_waiting(unsigned int timeout_ms) {
+    struct timeval timeout = {timeout_ms / 1000, (timeout_ms % 1000) * 1000}; // seconds, microseconds
 
     // tell which descriptors to wait for (only want the socket descriptor for this server)
     fd_set read_fd_set;
@@ -40,7 +40,7 @@ bool UdpServer::message_waiting() {
     FD_SET(m_sd, &read_fd_set);
 
     int ready = select(FD_SETSIZE, &read_fd_set, NULL, NULL, &timeout);
-    return ready == m_sd;
+    return FD_ISSET(m_sd, &read_fd_set);
 }
 
 // ----------------------------------------------------------------------------
@@ -52,38 +52,53 @@ void UdpServer::send(const std::string& ip, int port, const std::string& buffer)
     if ((hp = gethostbyname(ip.c_str())) == NULL) {
         std::cerr << "ERROR: " << strerror(errno) << "\ngethostbyname() failed" << std::endl;
     }
-
     memcpy(&server.sin_addr.s_addr, hp->h_addr, hp->h_length);
 
     // establish the server port number - we must use network byte order!
     server.sin_port = htons(port);
 
-    // send it to the echo server
-    int n_sent = sendto(m_sd, buffer.c_str(), buffer.size(), 0, (struct sockaddr*)&server, sizeof server);
-
-    if (n_sent < 0) {
+    if (sendto(m_sd, buffer.c_str(), buffer.size(), 0, (struct sockaddr*)&server, sizeof server) < 0) {
         std::cerr << "ERROR: " << strerror(errno) << "\nsendto() failed" << std::endl;
     }
 }
 
 // ----------------------------------------------------------------------------
 std::string UdpServer::receive() {
-    int n_bytes;
     char buffer[kMaxBuffer];
     struct sockaddr_in client;
     int len = sizeof client;
 
     // recvfrom is a blocking call
-    n_bytes = recvfrom(m_sd, buffer, kMaxBuffer, 0, (struct sockaddr*)&client, (socklen_t*)&len);
+    int n_bytes = recvfrom(m_sd, buffer, kMaxBuffer, 0, (struct sockaddr*)&client, (socklen_t*)&len);
     if (n_bytes < 0) {
         std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
     } else {
-        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << "\n";
+        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
 
         // null terminate and copy it to the return string
         buffer[n_bytes] = '\0';
     }
     return buffer;
+}
+
+// ----------------------------------------------------------------------------
+std::tuple<std::string, std::string, unsigned int>
+UdpServer::receive_from() {
+    char buffer[kMaxBuffer];
+    struct sockaddr_in client;
+    int len = sizeof client;
+
+    // recvfrom is a blocking call
+    int n_bytes = recvfrom(m_sd, buffer, kMaxBuffer, 0, (struct sockaddr*)&client, (socklen_t*)&len);
+    if (n_bytes < 0) {
+        std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
+    } else {
+        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
+
+        // null terminate and copy it to the return string
+        buffer[n_bytes] = '\0';
+    }
+    return {buffer, inet_ntoa(client.sin_addr), ntohs(client.sin_port)};   
 }
 
 } // namespace platform

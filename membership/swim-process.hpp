@@ -1,5 +1,13 @@
-#include <platform/faulty-process.hpp>
-#include <platform/udp-server.hpp>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <utility>
+
+#include "msg/swim.pb.h"
+#include "platform/faulty-process.hpp"
+#include "platform/udp-server.hpp"
+
+
 
 namespace swim {
 class SwimProcess : public platform::FaultyProcess {
@@ -20,9 +28,27 @@ public:
     void run() override;
 
 private:
+    // coordinator: wait for first join request
+    // other: send join request to coordinator
+    void initialize();
+
+    // Send a join message of type msg_type to the recipient described by the ip and port
+    void send_join_message(const std::string& ip, unsigned int port, Join::Type msg_type);
+
+    // Attempt to join for some number of retries
+    bool attempt_join();
+
+    void add_member(unsigned int id, unsigned int port);
+
+
+
+
     bool m_is_coordinator;
     std::string m_coord_host;
-    int m_coord_port;
+    unsigned int m_coord_port;
+
+    // member id, member port
+    std::unordered_map<unsigned int, unsigned int> m_members;
 };
 
 } // namespace swim
