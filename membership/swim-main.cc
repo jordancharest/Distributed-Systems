@@ -1,4 +1,6 @@
 #include <iostream>
+#include <limits>
+#include <random>
 #include <thread>
 #include <getopt.h>
 
@@ -10,11 +12,10 @@
 
 
 std::tuple<std::string, int, std::string, int, bool> parse_args(int argc, char** argv) {
-
     std::string host = "";
     int port = 0;
     std::string chost = "";
-    int cport;
+    int cport = 0;
     int coordinator = 0;
 
     while (true) {
@@ -91,29 +92,34 @@ int main (int argc, char** argv) {
     std::cout << "MAIN: starting server " << host << ":" << port << "\n";
     std::shared_ptr<platform::UdpServer> server = std::make_shared<platform::UdpServer>(host, port);
 
+    // to generate thread ids
+    std::random_device rd;
+    std::mt19937_64 generator(rd());
+    std::uniform_int_distribution<uint64_t> dist(1, std::numeric_limits<uint64_t>::max());
+
     // this process acts as a watchdog for the faulty process. When the faulty process crashes,
     // it is automatically restarted
     while (true) {
         // encapsulate the entire program in a FaultyProcess
         // so we can control crashes, message loss, etc.
-        swim::SwimProcess sp(server, is_coordinator, chost, cport);
+        swim::SwimProcess sp(server, dist(generator), is_coordinator, chost, cport);
         std::thread process_thread([&](){ sp.run(); });
 
         int i = 0;
         while (true) {
             ++i;
-            std::cout << "MAIN: generating random number " << i << std::endl;
 
             // sit and generate random numbers, don't crash the coordinator for now
-            if (!is_coordinator && i == 10) {
+            if (!is_coordinator && i == 25) {
                 std::cout << "MAIN: crashing process" << std::endl;
                 sp.crash();
                 process_thread.join();
                 break;
             }
-            std::this_thread::sleep_for(std::chrono::seconds(5));
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
 
+    google::protobuf::ShutdownProtobufLibrary();
     return EXIT_SUCCESS;
 }

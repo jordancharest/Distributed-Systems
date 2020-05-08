@@ -73,7 +73,7 @@ std::string UdpServer::receive() {
     if (n_bytes < 0) {
         std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
     } else {
-        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
+        // std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
 
         // null terminate and copy it to the return string
         buffer[n_bytes] = '\0';
@@ -93,7 +93,7 @@ UdpServer::receive_from() {
     if (n_bytes < 0) {
         std::cerr << "ERROR: " << strerror(errno) << "\nrecvfrom() failed" << std::endl;
     } else {
-        std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
+        // std::cout << "Received datagram from: " << inet_ntoa(client.sin_addr) << ":" << ntohs(client.sin_port) << "\n";
 
         // null terminate and copy it to the return string
         buffer[n_bytes] = '\0';

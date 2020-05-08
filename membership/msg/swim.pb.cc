@@ -15,16 +15,11 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_swim_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Member_swim_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_swim_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Message_MembersEntry_DoNotUse_swim_2eproto;
 namespace swim {
 class MemberDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Member> _instance;
 } _Member_default_instance_;
-class Message_MembersEntry_DoNotUseDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Message_MembersEntry_DoNotUse> _instance;
-} _Message_MembersEntry_DoNotUse_default_instance_;
 class MessageDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Message> _instance;
@@ -57,23 +52,9 @@ static void InitDefaultsscc_info_Message_swim_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Message_swim_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Message_swim_2eproto}, {
-      &scc_info_Message_MembersEntry_DoNotUse_swim_2eproto.base,}};
-
-static void InitDefaultsscc_info_Message_MembersEntry_DoNotUse_swim_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::swim::_Message_MembersEntry_DoNotUse_default_instance_;
-    new (ptr) ::swim::Message_MembersEntry_DoNotUse();
-  }
-  ::swim::Message_MembersEntry_DoNotUse::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Message_MembersEntry_DoNotUse_swim_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Message_MembersEntry_DoNotUse_swim_2eproto}, {
       &scc_info_Member_swim_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_swim_2eproto[3];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_swim_2eproto[2];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_swim_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_swim_2eproto = nullptr;
 
@@ -84,16 +65,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_swim_2eproto::offsets[] PROTOB
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::swim::Member, status_),
+  PROTOBUF_FIELD_OFFSET(::swim::Member, id_),
   PROTOBUF_FIELD_OFFSET(::swim::Member, port_),
-  PROTOBUF_FIELD_OFFSET(::swim::Message_MembersEntry_DoNotUse, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::swim::Message_MembersEntry_DoNotUse, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::swim::Message_MembersEntry_DoNotUse, key_),
-  PROTOBUF_FIELD_OFFSET(::swim::Message_MembersEntry_DoNotUse, value_),
-  0,
-  1,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::swim::Message, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -101,45 +74,40 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_swim_2eproto::offsets[] PROTOB
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::swim::Message, type_),
   PROTOBUF_FIELD_OFFSET(::swim::Message, sender_id_),
-  PROTOBUF_FIELD_OFFSET(::swim::Message, members_),
+  PROTOBUF_FIELD_OFFSET(::swim::Message, member_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::swim::Member)},
-  { 7, 14, sizeof(::swim::Message_MembersEntry_DoNotUse)},
-  { 16, -1, sizeof(::swim::Message)},
+  { 8, -1, sizeof(::swim::Message)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::swim::_Member_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::swim::_Message_MembersEntry_DoNotUse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::swim::_Message_default_instance_),
 };
 
 const char descriptor_table_protodef_swim_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nswim.proto\022\004swim\"k\n\006Member\022#\n\006status\030\001"
-  " \001(\0162\023.swim.Member.Status\022\014\n\004port\030\002 \001(\r\""
-  ".\n\006Status\022\t\n\005ALIVE\020\000\022\r\n\tSUSPECTED\020\001\022\n\n\006F"
-  "AILED\020\002\"\304\001\n\007Message\022 \n\004type\030\001 \001(\0162\022.swim"
-  ".Message.Type\022\021\n\tsender_id\030\002 \001(\r\022+\n\007memb"
-  "ers\030\003 \003(\0132\032.swim.Message.MembersEntry\032<\n"
-  "\014MembersEntry\022\013\n\003key\030\001 \001(\r\022\033\n\005value\030\002 \001("
-  "\0132\014.swim.Member:\0028\001\"\031\n\004Type\022\010\n\004PING\020\000\022\007\n"
-  "\003ACK\020\001b\006proto3"
+  "\n\nswim.proto\022\004swim\"w\n\006Member\022#\n\006status\030\001"
+  " \001(\0162\023.swim.Member.Status\022\n\n\002id\030\002 \001(\r\022\014\n"
+  "\004port\030\003 \001(\r\".\n\006Status\022\t\n\005ALIVE\020\000\022\r\n\tSUSP"
+  "ECTED\020\001\022\n\n\006FAILED\020\002\"w\n\007Message\022 \n\004type\030\001"
+  " \001(\0162\022.swim.Message.Type\022\021\n\tsender_id\030\002 "
+  "\001(\r\022\034\n\006member\030\003 \003(\0132\014.swim.Member\"\031\n\004Typ"
+  "e\022\010\n\004PING\020\000\022\007\n\003ACK\020\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_swim_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_swim_2eproto_sccs[3] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_swim_2eproto_sccs[2] = {
   &scc_info_Member_swim_2eproto.base,
   &scc_info_Message_swim_2eproto.base,
-  &scc_info_Message_MembersEntry_DoNotUse_swim_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_swim_2eproto_once;
 static bool descriptor_table_swim_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_swim_2eproto = {
-  &descriptor_table_swim_2eproto_initialized, descriptor_table_protodef_swim_2eproto, "swim.proto", 334,
-  &descriptor_table_swim_2eproto_once, descriptor_table_swim_2eproto_sccs, descriptor_table_swim_2eproto_deps, 3, 0,
+  &descriptor_table_swim_2eproto_initialized, descriptor_table_protodef_swim_2eproto, "swim.proto", 268,
+  &descriptor_table_swim_2eproto_once, descriptor_table_swim_2eproto_sccs, descriptor_table_swim_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_swim_2eproto::offsets,
-  file_level_metadata_swim_2eproto, 3, file_level_enum_descriptors_swim_2eproto, file_level_service_descriptors_swim_2eproto,
+  file_level_metadata_swim_2eproto, 2, file_level_enum_descriptors_swim_2eproto, file_level_service_descriptors_swim_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -263,9 +231,16 @@ const char* Member::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::int
           _internal_set_status(static_cast<::swim::Member_Status>(val));
         } else goto handle_unusual;
         continue;
-      // uint32 port = 2;
+      // uint32 id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 port = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -303,10 +278,16 @@ failure:
       1, this->_internal_status(), target);
   }
 
-  // uint32 port = 2;
+  // uint32 id = 2;
+  if (this->id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id(), target);
+  }
+
+  // uint32 port = 3;
   if (this->port() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_port(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_port(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -331,7 +312,14 @@ size_t Member::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
   }
 
-  // uint32 port = 2;
+  // uint32 id = 2;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_id());
+  }
+
+  // uint32 port = 3;
   if (this->port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -372,6 +360,9 @@ void Member::MergeFrom(const Member& from) {
   if (from.status() != 0) {
     _internal_set_status(from._internal_status());
   }
+  if (from.id() != 0) {
+    _internal_set_id(from._internal_id());
+  }
   if (from.port() != 0) {
     _internal_set_port(from._internal_port());
   }
@@ -399,28 +390,12 @@ void Member::InternalSwap(Member* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(status_, other->status_);
+  swap(id_, other->id_);
   swap(port_, other->port_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Member::GetMetadata() const {
   return GetMetadataStatic();
-}
-
-
-// ===================================================================
-
-Message_MembersEntry_DoNotUse::Message_MembersEntry_DoNotUse() {}
-Message_MembersEntry_DoNotUse::Message_MembersEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-    : SuperType(arena) {}
-void Message_MembersEntry_DoNotUse::MergeFrom(const Message_MembersEntry_DoNotUse& other) {
-  MergeFromInternal(other);
-}
-::PROTOBUF_NAMESPACE_ID::Metadata Message_MembersEntry_DoNotUse::GetMetadata() const {
-  return GetMetadataStatic();
-}
-void Message_MembersEntry_DoNotUse::MergeFrom(
-    const ::PROTOBUF_NAMESPACE_ID::Message& other) {
-  ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom(other);
 }
 
 
@@ -439,9 +414,9 @@ Message::Message()
 }
 Message::Message(const Message& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
+      _internal_metadata_(nullptr),
+      member_(from.member_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  members_.MergeFrom(from.members_);
   ::memcpy(&type_, &from.type_,
     static_cast<size_t>(reinterpret_cast<char*>(&sender_id_) -
     reinterpret_cast<char*>(&type_)) + sizeof(sender_id_));
@@ -478,7 +453,7 @@ void Message::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  members_.Clear();
+  member_.Clear();
   ::memset(&type_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&sender_id_) -
       reinterpret_cast<char*>(&type_)) + sizeof(sender_id_));
@@ -507,13 +482,13 @@ const char* Message::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // map<uint32, .swim.Member> members = 3;
+      // repeated .swim.Member member = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr -= 1;
           do {
             ptr += 1;
-            ptr = ctx->ParseMessage(&members_, ptr);
+            ptr = ctx->ParseMessage(_internal_add_member(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
@@ -558,35 +533,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_sender_id(), target);
   }
 
-  // map<uint32, .swim.Member> members = 3;
-  if (!this->_internal_members().empty()) {
-    typedef ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >::const_pointer
-        ConstPtr;
-    typedef ::PROTOBUF_NAMESPACE_ID::internal::SortItem< ::PROTOBUF_NAMESPACE_ID::uint32, ConstPtr > SortItem;
-    typedef ::PROTOBUF_NAMESPACE_ID::internal::CompareByFirstField<SortItem> Less;
-
-    if (stream->IsSerializationDeterministic() &&
-        this->_internal_members().size() > 1) {
-      ::std::unique_ptr<SortItem[]> items(
-          new SortItem[this->_internal_members().size()]);
-      typedef ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >::size_type size_type;
-      size_type n = 0;
-      for (::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >::const_iterator
-          it = this->_internal_members().begin();
-          it != this->_internal_members().end(); ++it, ++n) {
-        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
-      }
-      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
-      for (size_type i = 0; i < n; i++) {
-        target = Message_MembersEntry_DoNotUse::Funcs::InternalSerialize(3, items[static_cast<ptrdiff_t>(i)].second->first, items[static_cast<ptrdiff_t>(i)].second->second, target, stream);
-      }
-    } else {
-      for (::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >::const_iterator
-          it = this->_internal_members().begin();
-          it != this->_internal_members().end(); ++it) {
-        target = Message_MembersEntry_DoNotUse::Funcs::InternalSerialize(3, it->first, it->second, target, stream);
-      }
-    }
+  // repeated .swim.Member member = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_member_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, this->_internal_member(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -605,13 +557,11 @@ size_t Message::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // map<uint32, .swim.Member> members = 3;
-  total_size += 1 *
-      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(this->_internal_members_size());
-  for (::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >::const_iterator
-      it = this->_internal_members().begin();
-      it != this->_internal_members().end(); ++it) {
-    total_size += Message_MembersEntry_DoNotUse::Funcs::ByteSizeLong(it->first, it->second);
+  // repeated .swim.Member member = 3;
+  total_size += 1UL * this->_internal_member_size();
+  for (const auto& msg : this->member_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   // .swim.Message.Type type = 1;
@@ -658,7 +608,7 @@ void Message::MergeFrom(const Message& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  members_.MergeFrom(from.members_);
+  member_.MergeFrom(from.member_);
   if (from.type() != 0) {
     _internal_set_type(from._internal_type());
   }
@@ -688,7 +638,7 @@ bool Message::IsInitialized() const {
 void Message::InternalSwap(Message* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  members_.Swap(&other->members_);
+  member_.InternalSwap(&other->member_);
   swap(type_, other->type_);
   swap(sender_id_, other->sender_id_);
 }
@@ -703,9 +653,6 @@ void Message::InternalSwap(Message* other) {
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::swim::Member* Arena::CreateMaybeMessage< ::swim::Member >(Arena* arena) {
   return Arena::CreateInternal< ::swim::Member >(arena);
-}
-template<> PROTOBUF_NOINLINE ::swim::Message_MembersEntry_DoNotUse* Arena::CreateMaybeMessage< ::swim::Message_MembersEntry_DoNotUse >(Arena* arena) {
-  return Arena::CreateInternal< ::swim::Message_MembersEntry_DoNotUse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::swim::Message* Arena::CreateMaybeMessage< ::swim::Message >(Arena* arena) {
   return Arena::CreateInternal< ::swim::Message >(arena);

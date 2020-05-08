@@ -31,9 +31,6 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/map.h>  // IWYU pragma: export
-#include <google/protobuf/map_entry.h>
-#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
@@ -51,7 +48,7 @@ struct TableStruct_swim_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,14 +62,10 @@ extern MemberDefaultTypeInternal _Member_default_instance_;
 class Message;
 class MessageDefaultTypeInternal;
 extern MessageDefaultTypeInternal _Message_default_instance_;
-class Message_MembersEntry_DoNotUse;
-class Message_MembersEntry_DoNotUseDefaultTypeInternal;
-extern Message_MembersEntry_DoNotUseDefaultTypeInternal _Message_MembersEntry_DoNotUse_default_instance_;
 }  // namespace swim
 PROTOBUF_NAMESPACE_OPEN
 template<> ::swim::Member* Arena::CreateMaybeMessage<::swim::Member>(Arena*);
 template<> ::swim::Message* Arena::CreateMaybeMessage<::swim::Message>(Arena*);
-template<> ::swim::Message_MembersEntry_DoNotUse* Arena::CreateMaybeMessage<::swim::Message_MembersEntry_DoNotUse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace swim {
 
@@ -268,7 +261,8 @@ class Member :
 
   enum : int {
     kStatusFieldNumber = 1,
-    kPortFieldNumber = 2,
+    kIdFieldNumber = 2,
+    kPortFieldNumber = 3,
   };
   // .swim.Member.Status status = 1;
   void clear_status();
@@ -279,7 +273,16 @@ class Member :
   void _internal_set_status(::swim::Member_Status value);
   public:
 
-  // uint32 port = 2;
+  // uint32 id = 2;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 port = 3;
   void clear_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 port() const;
   void set_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -294,40 +297,11 @@ class Member :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   int status_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 port_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_swim_2eproto;
 };
-// -------------------------------------------------------------------
-
-class Message_MembersEntry_DoNotUse : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<Message_MembersEntry_DoNotUse, 
-    ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member,
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE,
-    0 > {
-public:
-  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<Message_MembersEntry_DoNotUse, 
-    ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member,
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE,
-    0 > SuperType;
-  Message_MembersEntry_DoNotUse();
-  Message_MembersEntry_DoNotUse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void MergeFrom(const Message_MembersEntry_DoNotUse& other);
-  static const Message_MembersEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const Message_MembersEntry_DoNotUse*>(&_Message_MembersEntry_DoNotUse_default_instance_); }
-  static bool ValidateKey(void*) { return true; }
-  static bool ValidateValue(void*) { return true; }
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& other) final;
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_swim_2eproto);
-    return ::descriptor_table_swim_2eproto.file_level_metadata[1];
-  }
-
-  public:
-};
-
 // -------------------------------------------------------------------
 
 class Message :
@@ -372,7 +346,7 @@ class Message :
                &_Message_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(Message& a, Message& b) {
     a.Swap(&b);
@@ -433,7 +407,6 @@ class Message :
 
   // nested types ----------------------------------------------------
 
-
   typedef Message_Type Type;
   static constexpr Type PING =
     Message_Type_PING;
@@ -467,26 +440,27 @@ class Message :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMembersFieldNumber = 3,
+    kMemberFieldNumber = 3,
     kTypeFieldNumber = 1,
     kSenderIdFieldNumber = 2,
   };
-  // map<uint32, .swim.Member> members = 3;
-  int members_size() const;
+  // repeated .swim.Member member = 3;
+  int member_size() const;
   private:
-  int _internal_members_size() const;
+  int _internal_member_size() const;
   public:
-  void clear_members();
+  void clear_member();
+  ::swim::Member* mutable_member(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >*
+      mutable_member();
   private:
-  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >&
-      _internal_members() const;
-  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >*
-      _internal_mutable_members();
+  const ::swim::Member& _internal_member(int index) const;
+  ::swim::Member* _internal_add_member();
   public:
-  const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >&
-      members() const;
-  ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >*
-      mutable_members();
+  const ::swim::Member& member(int index) const;
+  ::swim::Member* add_member();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >&
+      member() const;
 
   // .swim.Message.Type type = 1;
   void clear_type();
@@ -511,12 +485,7 @@ class Message :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::MapField<
-      Message_MembersEntry_DoNotUse,
-      ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member,
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_UINT32,
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE,
-      0 > members_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member > member_;
   int type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 sender_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -553,7 +522,27 @@ inline void Member::set_status(::swim::Member_Status value) {
   // @@protoc_insertion_point(field_set:swim.Member.status)
 }
 
-// uint32 port = 2;
+// uint32 id = 2;
+inline void Member::clear_id() {
+  id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Member::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Member::id() const {
+  // @@protoc_insertion_point(field_get:swim.Member.id)
+  return _internal_id();
+}
+inline void Member::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  id_ = value;
+}
+inline void Member::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:swim.Member.id)
+}
+
+// uint32 port = 3;
 inline void Member::clear_port() {
   port_ = 0u;
 }
@@ -572,8 +561,6 @@ inline void Member::set_port(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_port(value);
   // @@protoc_insertion_point(field_set:swim.Member.port)
 }
-
-// -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
 
@@ -619,40 +606,48 @@ inline void Message::set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:swim.Message.sender_id)
 }
 
-// map<uint32, .swim.Member> members = 3;
-inline int Message::_internal_members_size() const {
-  return members_.size();
+// repeated .swim.Member member = 3;
+inline int Message::_internal_member_size() const {
+  return member_.size();
 }
-inline int Message::members_size() const {
-  return _internal_members_size();
+inline int Message::member_size() const {
+  return _internal_member_size();
 }
-inline void Message::clear_members() {
-  members_.Clear();
+inline void Message::clear_member() {
+  member_.Clear();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >&
-Message::_internal_members() const {
-  return members_.GetMap();
+inline ::swim::Member* Message::mutable_member(int index) {
+  // @@protoc_insertion_point(field_mutable:swim.Message.member)
+  return member_.Mutable(index);
 }
-inline const ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >&
-Message::members() const {
-  // @@protoc_insertion_point(field_map:swim.Message.members)
-  return _internal_members();
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >*
+Message::mutable_member() {
+  // @@protoc_insertion_point(field_mutable_list:swim.Message.member)
+  return &member_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >*
-Message::_internal_mutable_members() {
-  return members_.MutableMap();
+inline const ::swim::Member& Message::_internal_member(int index) const {
+  return member_.Get(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::Map< ::PROTOBUF_NAMESPACE_ID::uint32, ::swim::Member >*
-Message::mutable_members() {
-  // @@protoc_insertion_point(field_mutable_map:swim.Message.members)
-  return _internal_mutable_members();
+inline const ::swim::Member& Message::member(int index) const {
+  // @@protoc_insertion_point(field_get:swim.Message.member)
+  return _internal_member(index);
+}
+inline ::swim::Member* Message::_internal_add_member() {
+  return member_.Add();
+}
+inline ::swim::Member* Message::add_member() {
+  // @@protoc_insertion_point(field_add:swim.Message.member)
+  return _internal_add_member();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >&
+Message::member() const {
+  // @@protoc_insertion_point(field_list:swim.Message.member)
+  return member_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 
