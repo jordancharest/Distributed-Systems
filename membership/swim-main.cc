@@ -118,7 +118,11 @@ int main (int argc, char** argv) {
             }
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
+
+        // FOR DEBUGGING
+        break;
     }
+    std::cout << "MAIN: exiting" << std::endl;
 
     google::protobuf::ShutdownProtobufLibrary();
     return EXIT_SUCCESS;

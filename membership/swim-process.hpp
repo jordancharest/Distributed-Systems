@@ -1,4 +1,4 @@
-#include <queue>
+#include <deque>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -47,6 +47,16 @@ private:
 
     void add_member(unsigned int id, unsigned int port);
 
+    enum LogLevel {
+        LOG_DEBUG = 0,
+        LOG_INFO,
+        LOG_FATAL
+    };
+
+    // log some information according to the log level
+    std::string log_header(LogLevel lvl = LOG_INFO);
+
+
 
     const unsigned int m_id;
     const bool m_is_coordinator;
@@ -57,9 +67,9 @@ private:
 
     struct MemberUpdate {
         Member member;
-        int rounds = 3;
+        int retransmit = 3;
     };
-    std::queue<MemberUpdate> m_recent_updates;
+    std::deque<MemberUpdate> m_recent_updates;
     std::vector<unsigned int> m_id_list;
 };
 
