@@ -18,8 +18,10 @@ message Message {
     enum Type {
         PING = 0;
         ACK = 1;
+        PING_REQ = 2;
     }
     Type type = 1;
     uint32 sender_id = 2;
-    repeated Member member = 3;
+    repeated Member members = 3;
+    Member request = 4;
 }

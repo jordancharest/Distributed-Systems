@@ -98,12 +98,13 @@ inline bool Member_Status_Parse(
 enum Message_Type : int {
   Message_Type_PING = 0,
   Message_Type_ACK = 1,
+  Message_Type_PING_REQ = 2,
   Message_Type_Message_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   Message_Type_Message_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool Message_Type_IsValid(int value);
 constexpr Message_Type Message_Type_Type_MIN = Message_Type_PING;
-constexpr Message_Type Message_Type_Type_MAX = Message_Type_ACK;
+constexpr Message_Type Message_Type_Type_MAX = Message_Type_PING_REQ;
 constexpr int Message_Type_Type_ARRAYSIZE = Message_Type_Type_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Message_Type_descriptor();
@@ -412,6 +413,8 @@ class Message :
     Message_Type_PING;
   static constexpr Type ACK =
     Message_Type_ACK;
+  static constexpr Type PING_REQ =
+    Message_Type_PING_REQ;
   static inline bool Type_IsValid(int value) {
     return Message_Type_IsValid(value);
   }
@@ -440,27 +443,43 @@ class Message :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMemberFieldNumber = 3,
+    kMembersFieldNumber = 3,
+    kRequestFieldNumber = 4,
     kTypeFieldNumber = 1,
     kSenderIdFieldNumber = 2,
   };
-  // repeated .swim.Member member = 3;
-  int member_size() const;
+  // repeated .swim.Member members = 3;
+  int members_size() const;
   private:
-  int _internal_member_size() const;
+  int _internal_members_size() const;
   public:
-  void clear_member();
-  ::swim::Member* mutable_member(int index);
+  void clear_members();
+  ::swim::Member* mutable_members(int index);
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >*
-      mutable_member();
+      mutable_members();
   private:
-  const ::swim::Member& _internal_member(int index) const;
-  ::swim::Member* _internal_add_member();
+  const ::swim::Member& _internal_members(int index) const;
+  ::swim::Member* _internal_add_members();
   public:
-  const ::swim::Member& member(int index) const;
-  ::swim::Member* add_member();
+  const ::swim::Member& members(int index) const;
+  ::swim::Member* add_members();
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >&
-      member() const;
+      members() const;
+
+  // .swim.Member request = 4;
+  bool has_request() const;
+  private:
+  bool _internal_has_request() const;
+  public:
+  void clear_request();
+  const ::swim::Member& request() const;
+  ::swim::Member* release_request();
+  ::swim::Member* mutable_request();
+  void set_allocated_request(::swim::Member* request);
+  private:
+  const ::swim::Member& _internal_request() const;
+  ::swim::Member* _internal_mutable_request();
+  public:
 
   // .swim.Message.Type type = 1;
   void clear_type();
@@ -485,7 +504,8 @@ class Message :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member > member_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member > members_;
+  ::swim::Member* request_;
   int type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 sender_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -606,43 +626,103 @@ inline void Message::set_sender_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:swim.Message.sender_id)
 }
 
-// repeated .swim.Member member = 3;
-inline int Message::_internal_member_size() const {
-  return member_.size();
+// repeated .swim.Member members = 3;
+inline int Message::_internal_members_size() const {
+  return members_.size();
 }
-inline int Message::member_size() const {
-  return _internal_member_size();
+inline int Message::members_size() const {
+  return _internal_members_size();
 }
-inline void Message::clear_member() {
-  member_.Clear();
+inline void Message::clear_members() {
+  members_.Clear();
 }
-inline ::swim::Member* Message::mutable_member(int index) {
-  // @@protoc_insertion_point(field_mutable:swim.Message.member)
-  return member_.Mutable(index);
+inline ::swim::Member* Message::mutable_members(int index) {
+  // @@protoc_insertion_point(field_mutable:swim.Message.members)
+  return members_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >*
-Message::mutable_member() {
-  // @@protoc_insertion_point(field_mutable_list:swim.Message.member)
-  return &member_;
+Message::mutable_members() {
+  // @@protoc_insertion_point(field_mutable_list:swim.Message.members)
+  return &members_;
 }
-inline const ::swim::Member& Message::_internal_member(int index) const {
-  return member_.Get(index);
+inline const ::swim::Member& Message::_internal_members(int index) const {
+  return members_.Get(index);
 }
-inline const ::swim::Member& Message::member(int index) const {
-  // @@protoc_insertion_point(field_get:swim.Message.member)
-  return _internal_member(index);
+inline const ::swim::Member& Message::members(int index) const {
+  // @@protoc_insertion_point(field_get:swim.Message.members)
+  return _internal_members(index);
 }
-inline ::swim::Member* Message::_internal_add_member() {
-  return member_.Add();
+inline ::swim::Member* Message::_internal_add_members() {
+  return members_.Add();
 }
-inline ::swim::Member* Message::add_member() {
-  // @@protoc_insertion_point(field_add:swim.Message.member)
-  return _internal_add_member();
+inline ::swim::Member* Message::add_members() {
+  // @@protoc_insertion_point(field_add:swim.Message.members)
+  return _internal_add_members();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::swim::Member >&
-Message::member() const {
-  // @@protoc_insertion_point(field_list:swim.Message.member)
-  return member_;
+Message::members() const {
+  // @@protoc_insertion_point(field_list:swim.Message.members)
+  return members_;
+}
+
+// .swim.Member request = 4;
+inline bool Message::_internal_has_request() const {
+  return this != internal_default_instance() && request_ != nullptr;
+}
+inline bool Message::has_request() const {
+  return _internal_has_request();
+}
+inline void Message::clear_request() {
+  if (GetArenaNoVirtual() == nullptr && request_ != nullptr) {
+    delete request_;
+  }
+  request_ = nullptr;
+}
+inline const ::swim::Member& Message::_internal_request() const {
+  const ::swim::Member* p = request_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::swim::Member*>(
+      &::swim::_Member_default_instance_);
+}
+inline const ::swim::Member& Message::request() const {
+  // @@protoc_insertion_point(field_get:swim.Message.request)
+  return _internal_request();
+}
+inline ::swim::Member* Message::release_request() {
+  // @@protoc_insertion_point(field_release:swim.Message.request)
+  
+  ::swim::Member* temp = request_;
+  request_ = nullptr;
+  return temp;
+}
+inline ::swim::Member* Message::_internal_mutable_request() {
+  
+  if (request_ == nullptr) {
+    auto* p = CreateMaybeMessage<::swim::Member>(GetArenaNoVirtual());
+    request_ = p;
+  }
+  return request_;
+}
+inline ::swim::Member* Message::mutable_request() {
+  // @@protoc_insertion_point(field_mutable:swim.Message.request)
+  return _internal_mutable_request();
+}
+inline void Message::set_allocated_request(::swim::Member* request) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete request_;
+  }
+  if (request) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      request = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, request, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  request_ = request;
+  // @@protoc_insertion_point(field_set_allocated:swim.Message.request)
 }
 
 #ifdef __GNUC__

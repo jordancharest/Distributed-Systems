@@ -38,14 +38,17 @@ private:
     void initialize();
 
     // Send a join message of type msg_type to the recipient described by the ip and port
-    void send_message(const std::string& ip, unsigned int port, Message::Type msg_type);
+    void send_message(const std::string& ip, unsigned int port, Message::Type msg_type, bool send_whole_list = false);
     void handle_message();
     void send_ping();
+    void send_ping_requests();
+
 
     // Attempt to join for some number of retries
     bool attempt_join();
 
-    void add_member(unsigned int id, unsigned int port);
+    // return true if the member did not exist before
+    bool add_member(unsigned int id, unsigned int port);
 
     enum LogLevel {
         LOG_DEBUG = 0,
@@ -62,6 +65,10 @@ private:
     const bool m_is_coordinator;
     std::string m_coord_host;
     unsigned int m_coord_port;
+
+
+    bool m_unacknowledged_ping = false;
+    Member m_unacknowledged_member;
 
     std::unordered_map<unsigned int, Member> m_members;
 
