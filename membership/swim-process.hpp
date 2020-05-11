@@ -48,7 +48,7 @@ private:
     bool attempt_join();
 
     // return true if the member did not exist before
-    bool add_member(unsigned int id, unsigned int port);
+    bool update_member_list(const Member& member);
 
     enum LogLevel {
         LOG_DEBUG = 0,
@@ -79,5 +79,10 @@ private:
     std::deque<MemberUpdate> m_recent_updates;
     std::vector<unsigned int> m_id_list;
 };
+
+std::string status_to_str(Member::Status status);
+Member make_member(unsigned int id, unsigned int port, Member::Status status);
+void clear_member(Member& m);
+
 
 } // namespace swim

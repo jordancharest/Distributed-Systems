@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <sstream>
+#include <unordered_map>
 
 #include "msg/swim.pb.h"
 
@@ -45,9 +46,6 @@ std::string SwimProcess::log_header(LogLevel lvl) {
     };
 
 
-
-
-
     switch (lvl) {
         case LOG_DEBUG:
             // print everything
@@ -68,10 +66,34 @@ std::string SwimProcess::log_header(LogLevel lvl) {
     return oss.str();
 }
 
+std::string status_to_str(Member::Status status) {
+    static const std::unordered_map<Member::Status, std::string> status_map = {
+        {Member::ALIVE, "ALIVE"},
+        {Member::SUSPECTED, "SUSPECTED"},
+        {Member::FAILED, "FAILED"}
+    };
+
+    return status_map.at(status);
+}
+
+Member make_member(unsigned int id, unsigned int port, Member::Status status) {
+    Member m;
+    m.set_id(id);
+    m.set_port(port);
+    m.set_status(status);
+    return m;
+}
+
+void clear_member(Member& m) {
+    m.clear_port();
+    m.clear_status();
+    m.clear_id();
+}
+
 
 void SwimProcess::run() {
     // add self to membership list
-    add_member(m_id, m_server->port());
+    update_member_list(make_member(m_id, m_server->port(), Member::ALIVE));
 
     bool initialized = false;
     while (!should_crash()) {
@@ -105,11 +127,10 @@ void SwimProcess::execute_swim() {
                       << "ping period finished with unacknowledged ping, suspect "
                       << m_unacknowledged_member.id() << std::endl;
 
-
-
-        
-            // TODO: add suspected process to m_recent_updates
-            // change member status in m_members to SUSPECT
+            m_unacknowledged_member.set_status(Member::SUSPECTED);
+            m_members[m_unacknowledged_member.id()].set_status(Member::SUSPECTED);
+            m_recent_updates.push_back({m_unacknowledged_member});
+            // TODO:  only add suspected process to m_recent_updates if it's not already there?
         }
 
         m_unacknowledged_ping = true;
@@ -135,13 +156,12 @@ void SwimProcess::handle_message() {
         switch (proto_msg.type()) {
             case Message::PING: {
                 std::cout << log_header() << "recieved PING. Sending ACK" << std::endl;
-                bool new_member = add_member(proto_msg.sender_id(), sender_port);
+                bool new_member = update_member_list(make_member(proto_msg.sender_id(), sender_port, Member::ALIVE));
 
                 // update local memberlist with everything that was sent to us
                 std::cout << log_header() << "received " << proto_msg.members_size() << " member updates" << std::endl;
                 for (int i = 0; i < proto_msg.members_size(); ++i) {
-                    auto& m = proto_msg.members(i);
-                    add_member(m.id(), m.port());
+                    update_member_list(proto_msg.members(i));
                 }
                 send_message(sender_ip, sender_port, Message::ACK, new_member);
                 break;
@@ -150,9 +170,7 @@ void SwimProcess::handle_message() {
                 if (proto_msg.sender_id() == m_unacknowledged_member.id()) {
                     std::cout << log_header() << "ping acknowledged" << std::endl;
                     m_unacknowledged_ping = false;
-                    m_unacknowledged_member.clear_port();
-                    m_unacknowledged_member.clear_status();
-                    m_unacknowledged_member.clear_id();
+                    clear_member(m_unacknowledged_member);
                 } else {
                     std::cout << log_header(LOG_FATAL) << "unknown ACK" << std::endl;
                     std::exit(1);
@@ -218,14 +236,10 @@ void SwimProcess::send_ping() {
         ++ping_index;
     }
 
-    auto m = m_members.at(m_id_list[ping_index]);
-    std::cout << log_header() << "send ping to 127.0.0.1:" << m.port() << std::endl;
+    auto& ping_recipient = m_members.at(m_id_list[ping_index]);
+    m_unacknowledged_member = ping_recipient;
 
-    m_unacknowledged_member.set_status(m.status());
-    m_unacknowledged_member.set_id(m.id());
-    m_unacknowledged_member.set_port(m.port());
-
-    send_message("127.0.0.1", m.port(), Message::PING);
+    send_message("127.0.0.1", ping_recipient.port(), Message::PING);
     ++ping_index;
 }
 
@@ -244,7 +258,7 @@ void SwimProcess::initialize() {
 
         switch (swim_msg.type()) {
             case Message::PING: {
-                bool new_member = add_member(swim_msg.sender_id(), port);
+                bool new_member = update_member_list(make_member(swim_msg.sender_id(), port, Member::ALIVE));
                 send_message(ip, port, Message::ACK, new_member);
                 break;
             }
@@ -324,26 +338,23 @@ bool SwimProcess::attempt_join() {
 }
 
 
-bool SwimProcess::add_member(unsigned int id, unsigned int port) {
-    auto existing_member = m_members.find(id);
-    if (existing_member != m_members.end()) {
-        // TODO: update existing member
-        std::cout << log_header() << "not adding " << id << ". Already a member." << std::endl;
-
-        // TODO update member if status has changed
-
+bool SwimProcess::update_member_list(const Member& member) {
+    auto existing_member_itr = m_members.find(member.id());
+    if (existing_member_itr != m_members.end()) {
+        auto& existing_member = existing_member_itr->second;
+        if (member.status() != existing_member.status()) {
+            std::cout << log_header() << "updating member " << existing_member.id()
+                      << ": " << status_to_str(existing_member.status())
+                      << " --> " << status_to_str(member.status());
+            existing_member.set_status(member.status());
+        }
         return false;
     } else {    // new member
-        Member m;
-        m.set_port(port);
-        m.set_status(Member::ALIVE);
-        m.set_id(id);
+        m_members[member.id()] = member;
+        m_id_list.push_back(member.id());
+        m_recent_updates.push_back({member});
 
-        m_members[id] = m;
-        m_id_list.push_back(id);
-        m_recent_updates.push_back({m});
-
-        std::cout << log_header() << "added member " << id << ":" << port << std::endl;
+        std::cout << log_header() << "added member " << member.id() << ":" << member.port() << std::endl;
         return true;
     }
 }
