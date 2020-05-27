@@ -15,7 +15,7 @@ static constexpr unsigned int kMaxJoinRetries = 5;
 static constexpr unsigned int kDefaultMsgTimeout_ms = 1000;
 static constexpr unsigned int kRunPeriod_ms = 1000;
 static constexpr unsigned int kPingPeriod_ms = 5000;
-static constexpr unsigned int kPingTimeout_ms = 1000;
+static constexpr unsigned int kPingTimeout_ms = 2000;
 static constexpr unsigned int kNumIndirectPings = 3;
 } // anonymous namespace
 
@@ -113,12 +113,11 @@ void SwimProcess::run() {
 }
 
 void SwimProcess::execute_swim() {
+    using namespace std::chrono;
     if (m_server->message_waiting()) {
         handle_message();
     }
 
-
-    using namespace std::chrono;
     static auto last_ping = steady_clock::now();
     static bool sent_requests_this_period = false;
     if (duration_cast<milliseconds>(steady_clock::now() - last_ping).count() > kPingPeriod_ms) {
@@ -133,15 +132,18 @@ void SwimProcess::execute_swim() {
             // TODO:  only add suspected process to m_recent_updates if it's not already there?
         }
 
-        m_unacknowledged_ping = true;
-        send_ping();
-        last_ping = steady_clock::now();
-        sent_requests_this_period = false;
+        if (send_ping())
+        {
+            last_ping = steady_clock::now();
+            m_unacknowledged_ping = true;
+            sent_requests_this_period = false;
+        }
+    }
 
     // send indirect pings if the last ping timed out
-    } else if (m_unacknowledged_ping
-                && duration_cast<milliseconds>(steady_clock::now() - last_ping).count() > kPingTimeout_ms
-                && !sent_requests_this_period) {
+    if (m_unacknowledged_ping
+        && duration_cast<milliseconds>(steady_clock::now() - last_ping).count() > kPingTimeout_ms
+        && !sent_requests_this_period) {
 
         std::cout << log_header() << "unacknowledged ping. Sending requests" << std::endl;
         send_ping_requests();
@@ -153,16 +155,17 @@ void SwimProcess::handle_message() {
         auto [msg, sender_ip, sender_port] = m_server->receive_from();
         Message proto_msg;
         proto_msg.ParseFromString(msg);
+
         switch (proto_msg.type()) {
             case Message::PING: {
-                std::cout << log_header() << "recieved PING. Sending ACK" << std::endl;
+                std::cout << log_header() << "recieved PING with " << proto_msg.members_size() << " member updates" << std::endl;
                 bool new_member = update_member_list(make_member(proto_msg.sender_id(), sender_port, Member::ALIVE));
 
                 // update local memberlist with everything that was sent to us
-                std::cout << log_header() << "received " << proto_msg.members_size() << " member updates" << std::endl;
                 for (int i = 0; i < proto_msg.members_size(); ++i) {
                     update_member_list(proto_msg.members(i));
                 }
+
                 send_message(sender_ip, sender_port, Message::ACK, new_member);
                 break;
             }
@@ -172,6 +175,7 @@ void SwimProcess::handle_message() {
                     m_unacknowledged_ping = false;
                     clear_member(m_unacknowledged_member);
                 } else {
+                    // TODO can't have this with indirect pings
                     std::cout << log_header(LOG_FATAL) << "unknown ACK" << std::endl;
                     std::exit(1);
                 }
@@ -212,12 +216,12 @@ void SwimProcess::send_ping_requests() {
     }
 }
 
-void SwimProcess::send_ping() {
+bool SwimProcess::send_ping() {
     static unsigned int ping_index = 0;
 
     // this process is the only member
     if (m_id_list.size() <= 1) {
-        return;
+        return false;
     }
 
     // permute the list if we are past the end or we are at the last element and it's this process
@@ -228,7 +232,6 @@ void SwimProcess::send_ping() {
         std::mt19937 generator(rd());
         std::shuffle(m_id_list.begin(), m_id_list.end(), generator);
         ping_index = 0;
-
     }
 
     // don't send pings to yourself
@@ -239,8 +242,12 @@ void SwimProcess::send_ping() {
     auto& ping_recipient = m_members.at(m_id_list[ping_index]);
     m_unacknowledged_member = ping_recipient;
 
+    std::cout << log_header() << "send ping to " << ping_recipient.id() << ":"
+              << ping_recipient.port() << " (" << m_recent_updates.size()
+              << " recent updates)" << std::endl;
     send_message("127.0.0.1", ping_recipient.port(), Message::PING);
     ++ping_index;
+    return true;
 }
 
 
@@ -271,13 +278,9 @@ void SwimProcess::initialize() {
 
 
 void SwimProcess::send_message(const std::string& ip, unsigned int port, Message::Type msg_type, bool send_whole_list) {
-    // apparently performs better if you avoid allocations, I didn't measure
-    static Message proto_msg;
-    std::string msg;
+    Message proto_msg;
     proto_msg.set_type(msg_type);
     proto_msg.set_sender_id(m_id);
-    proto_msg.clear_members();
-    proto_msg.clear_request();
 
     if (msg_type == Message::PING_REQ) {
         // TODO add unacknowledged member to the message
@@ -287,7 +290,7 @@ void SwimProcess::send_message(const std::string& ip, unsigned int port, Message
 
     // we send the whole membership list to new members
     if (send_whole_list) {
-        std::cout << log_header() << "send whole list to new member" << std::endl;
+        std::cout << log_header() << "send whole list (" << m_members.size() << " members) to new member" << std::endl;
         for (auto& m : m_members) {
             Member* new_member = proto_msg.add_members();
             new_member->set_status(m.second.status());
@@ -295,7 +298,6 @@ void SwimProcess::send_message(const std::string& ip, unsigned int port, Message
             new_member->set_port(m.second.port());
         }
     } else {    // only send recent updates
-        std::cout << log_header() << "send " << m_recent_updates.size() << " recent updates to existing member" << std::endl;
         for (auto& u : m_recent_updates) {
             Member* new_member = proto_msg.add_members();
             new_member->set_status(u.member.status());
@@ -310,6 +312,7 @@ void SwimProcess::send_message(const std::string& ip, unsigned int port, Message
         m_recent_updates.pop_front();
     }
 
+    std::string msg;
     proto_msg.SerializeToString(&msg);
     m_server->send(ip, port, msg);
 }

@@ -110,7 +110,7 @@ int main (int argc, char** argv) {
             ++i;
 
             // sit and generate random numbers, don't crash the coordinator for now
-            if (!is_coordinator && i == 25) {
+            if (!is_coordinator && i == 60) {
                 std::cout << "MAIN: crashing process" << std::endl;
                 sp.crash();
                 process_thread.join();

@@ -40,7 +40,7 @@ private:
     // Send a join message of type msg_type to the recipient described by the ip and port
     void send_message(const std::string& ip, unsigned int port, Message::Type msg_type, bool send_whole_list = false);
     void handle_message();
-    void send_ping();
+    bool send_ping();
     void send_ping_requests();
 
 
